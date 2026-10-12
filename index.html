@@ -28,7 +28,13 @@ img{max-width:100%}
 .wrap{max-width:1000px;margin:0 auto;padding:0 24px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0 0}
 .top img{height:30px;width:auto;display:block}
-.top span{font-size:13.5px;color:var(--muted);font-weight:500}
+.top-r{display:flex;align-items:center;gap:14px}
+.dept{font-size:13.5px;color:var(--muted);font-weight:500}
+.lang{display:inline-flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--mist);font:inherit;cursor:pointer}
+.lang span{min-width:36px;height:30px;padding:0 10px;display:grid;place-items:center;border-radius:999px;font-size:13px;font-weight:700;color:var(--muted);transition:background .12s,color .12s}
+.lang:hover span{color:var(--ink)}
+.lang span.on{background:var(--ink);color:#fff}
+.lang:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 
 .intro{padding:44px 0 30px}
 h1{margin:0;font-size:clamp(26px,4vw,38px);line-height:1.15;font-weight:800;letter-spacing:-.01em;max-width:18ch}
@@ -118,7 +124,7 @@ th+th,td+td{padding-left:10px}
 .capgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:20px}
 .cap{border:1px solid var(--line);border-radius:18px;padding:24px 24px 22px}
 .cap h3{margin:0;display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:19px;font-weight:700}
-.cap h3 span{font-size:14px;color:var(--muted);font-weight:500}
+.cap h3 small{font-size:14px;color:var(--muted);font-weight:500}
 .ins{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0 8px}
 .ins label{display:block;font-size:13px;color:var(--muted);font-weight:500;margin-bottom:6px}
 .ckv{margin:0;padding:0}
@@ -157,41 +163,44 @@ th+th,td+td{padding-left:10px}
 <div class="wrap">
   <header class="top">
     <img src="data:image/png;base64,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" alt="MEAMA">
-    <span>შესყიდვები</span>
+    <div class="top-r">
+      <span class="dept" data-i18n="dept">შესყიდვები</span>
+      <button type="button" class="lang" id="lang" aria-label="ინგლისურზე გადართვა"><span lang="ka" class="on">ქა</span><span lang="en">EN</span></button>
+    </div>
   </header>
 
   <div class="intro">
-    <h1>მოხალული მარცვლის თვითღირებულება</h1>
-    <p>რა ჯდება 1 კგ მოხალული მარცვლის მისაღებად საჭირო ნედლეული.</p>
+    <h1 data-i18n="h1">მოხალული მარცვლის თვითღირებულება</h1>
+    <p data-i18n="lead">რა ჯდება 1 კგ მოხალული მარცვლის მისაღებად საჭირო ნედლეული.</p>
   </div>
 
   <div class="grid">
-    <section aria-label="მონაცემები">
+    <section aria-label="მონაცემები" data-i18n-aria="inputs">
       <fieldset class="block">
-        <legend class="bt">ნედლი მარცვალი</legend>
-        <p class="hint">ვეისთი: წონის დანაკარგი მოხალვისას, თითო მარცვალზე ცალკე</p>
-        <div class="cols head" aria-hidden="true"><span>დასახელება</span><span>ვეისთი</span><span>ფასი, ₾ / კგ</span></div>
+        <legend class="bt" data-i18n="green">ნედლი მარცვალი</legend>
+        <p class="hint" data-i18n="wasteHint">ვეისთი: წონის დანაკარგი მოხალვისას, თითო მარცვალზე ცალკე</p>
+        <div class="cols head" aria-hidden="true"><span data-i18n="colName">დასახელება</span><span data-i18n="colWaste">ვეისთი</span><span data-i18n="colPrice">ფასი, ₾ / კგ</span></div>
         <div class="cols bean" id="row1">
           <span class="sw b1" aria-hidden="true"></span>
           <input class="t" id="n1" type="text" placeholder="მარცვალი 1" aria-label="მარცვალი 1, დასახელება" autocomplete="off">
           <label class="field loss"><input class="t num" id="w1" type="text" inputmode="decimal" value="18" aria-label="მარცვალი 1, ვეისთი პროცენტებში" autocomplete="off"><span class="unit">%</span></label>
-          <label class="field"><input class="t num" id="c1" type="text" inputmode="decimal" placeholder="0.00" aria-label="მარცვალი 1, ფასი ლარში კგ-ზე" autocomplete="off"><span class="unit">₾/კგ</span></label>
+          <label class="field"><input class="t num" id="c1" type="text" inputmode="decimal" placeholder="0.00" aria-label="მარცვალი 1, ფასი ლარში კგ-ზე" autocomplete="off"><span class="unit" data-i18n="priceUnit">₾/კგ</span></label>
         </div>
         <div class="cols bean" id="row2">
           <span class="sw b2" aria-hidden="true"></span>
           <input class="t" id="n2" type="text" placeholder="მარცვალი 2" aria-label="მარცვალი 2, დასახელება" autocomplete="off">
           <label class="field loss"><input class="t num" id="w2" type="text" inputmode="decimal" value="18" aria-label="მარცვალი 2, ვეისთი პროცენტებში" autocomplete="off"><span class="unit">%</span></label>
-          <label class="field"><input class="t num" id="c2" type="text" inputmode="decimal" placeholder="0.00" aria-label="მარცვალი 2, ფასი ლარში კგ-ზე" autocomplete="off"><span class="unit">₾/კგ</span></label>
+          <label class="field"><input class="t num" id="c2" type="text" inputmode="decimal" placeholder="0.00" aria-label="მარცვალი 2, ფასი ლარში კგ-ზე" autocomplete="off"><span class="unit" data-i18n="priceUnit">₾/კგ</span></label>
         </div>
       </fieldset>
 
       <div class="block">
-        <span class="bt" id="mixlbl">შემადგენლობა</span>
+        <span class="bt" id="mixlbl" data-i18n="mix">შემადგენლობა</span>
         <p class="hint" id="mixhint">ერთში ჩაწერე %, მეორე თავად შეივსება</p>
         <div class="seg" role="group" aria-labelledby="mixlbl">
           <button type="button" data-mode="b1" aria-pressed="false" id="m1">მარცვალი 1</button>
           <button type="button" data-mode="b2" aria-pressed="false" id="m2">მარცვალი 2</button>
-          <button type="button" data-mode="mix" aria-pressed="true">ბლენდი</button>
+          <button type="button" data-mode="mix" aria-pressed="true" data-i18n="blend">ბლენდი</button>
         </div>
         <div class="split" id="split">
           <div class="pcts">
@@ -206,21 +215,21 @@ th+th,td+td{padding-left:10px}
               <span class="field"><input class="t num" id="p2" type="text" inputmode="decimal" value="50" autocomplete="off"><span class="unit">%</span></span>
             </div>
           </div>
-          <input type="range" id="sl" min="0" max="100" step="1" value="50" aria-label="ბლენდის თანაფარდობა">
+          <input type="range" id="sl" min="0" max="100" step="1" value="50" aria-label="ბლენდის თანაფარდობა" data-i18n-aria="ratio">
         </div>
       </div>
     </section>
 
     <aside class="result" aria-live="polite">
-      <p class="rl">1 კგ მოხალულის ნედლეულის თ/ღ</p>
+      <p class="rl" data-i18n="resLabel">1 კგ მოხალულის ნედლეულის თ/ღ</p>
       <p class="big" id="total"><small>₾</small>—</p>
       <p class="rmsg" id="msg"></p>
       <dl class="kv">
-        <div><dt>საჭირო ნედლი</dt><dd id="raw">—</dd></div>
-        <div><dt>ნედლის საშუალო ფასი</dt><dd id="avg">—</dd></div>
+        <div><dt data-i18n="rawNeed">საჭირო ნედლი</dt><dd id="raw">—</dd></div>
+        <div><dt data-i18n="rawAvg">ნედლის საშუალო ფასი</dt><dd id="avg">—</dd></div>
       </dl>
       <table>
-        <thead><tr><th>მარცვალი</th><th>წილი</th><th>ნედლი</th><th>თ/ღ</th></tr></thead>
+        <thead><tr><th data-i18n="thBean">მარცვალი</th><th data-i18n="thShare">წილი</th><th data-i18n="thRaw">ნედლი</th><th data-i18n="cost">თ/ღ</th></tr></thead>
         <tbody id="tb"></tbody>
       </table>
       <p class="formula" id="fx"></p>
@@ -230,46 +239,46 @@ th+th,td+td{padding-left:10px}
   <section class="caps" aria-labelledby="capsh">
     <div class="caps-head">
       <div>
-        <h2 id="capsh">კაფსულის დაახლოებითი თ/ღ</h2>
-        <p class="hint">ყავის ღირებულება ზემოთ დათვლილი 1 კგ მოხალულიდან მოდის. ყველა ფასი დღგ-ის გარეშეა, დღგ 18%. საწყისი გრამაჟი და შეფუთვა FINA-ს რეცეპტიდან (08, 08.10.2026).</p>
+        <h2 id="capsh" data-i18n="capsTitle">კაფსულის დაახლოებითი თ/ღ</h2>
+        <p class="hint" data-i18n="capsHint">ყავის ღირებულება ზემოთ დათვლილი 1 კგ მოხალულიდან მოდის. ყველა ფასი დღგ-ის გარეშეა, დღგ 18%. საწყისი გრამაჟი და შეფუთვა FINA-ს რეცეპტიდან (08, 08.10.2026).</p>
         <p class="capmsg" id="capmsg"></p>
       </div>
       <div class="oh">
-        <label for="oh">საწარმო ხარჯი, ₾ / კაფსულა</label>
+        <label for="oh" data-i18n="ohLabel">საწარმო ხარჯი, ₾ / კაფსულა</label>
         <span class="field"><input class="t num" id="oh" type="text" inputmode="decimal" value="0.15" autocomplete="off"><span class="unit">₾</span></span>
       </div>
     </div>
     <div class="capgrid">
       <article class="cap">
-        <h3>ევროპული ფორმატი <span>37 მმ</span></h3>
+        <h3><span data-i18n="eu">ევროპული ფორმატი</span> <small>37 <span data-i18n="mm">მმ</span></small></h3>
         <div class="ins">
-          <div><label for="g37">ყავა, გ (მოხალული)</label><span class="field"><input class="t num" id="g37" type="text" inputmode="decimal" value="5.6" autocomplete="off"><span class="unit">გ</span></span></div>
-          <div><label for="k37">შეფუთვა, ₾</label><span class="field"><input class="t num" id="k37" type="text" inputmode="decimal" value="0.12" autocomplete="off"><span class="unit">₾</span></span></div>
+          <div><label for="g37" data-i18n="gIn">ყავა, გ (მოხალული)</label><span class="field"><input class="t num" id="g37" type="text" inputmode="decimal" value="5.6" autocomplete="off"><span class="unit" data-i18n="g">გ</span></span></div>
+          <div><label for="k37" data-i18n="pkIn">შეფუთვა, ₾</label><span class="field"><input class="t num" id="k37" type="text" inputmode="decimal" value="0.12" autocomplete="off"><span class="unit">₾</span></span></div>
         </div>
         <dl class="ckv">
-          <div><dt>ყავა</dt><dd id="cc37">—</dd></div>
-          <div><dt>შეფუთვა</dt><dd id="cp37">—</dd></div>
-          <div><dt>საწარმო ხარჯი</dt><dd id="co37">—</dd></div>
+          <div><dt data-i18n="coffee">ყავა</dt><dd id="cc37">—</dd></div>
+          <div><dt data-i18n="pack">შეფუთვა</dt><dd id="cp37">—</dd></div>
+          <div><dt data-i18n="oh">საწარმო ხარჯი</dt><dd id="co37">—</dd></div>
         </dl>
         <div class="tots">
-          <div class="tot"><p>თ/ღ</p><strong id="t37">—</strong></div>
-          <div class="tot vat"><p>თ/ღ + დღგ</p><strong id="v37">—</strong></div>
+          <div class="tot"><p data-i18n="cost">თ/ღ</p><strong id="t37">—</strong></div>
+          <div class="tot vat"><p data-i18n="costVat">თ/ღ + დღგ</p><strong id="v37">—</strong></div>
         </div>
       </article>
       <article class="cap">
-        <h3>ამერიკული ფორმატი <span>51 მმ</span></h3>
+        <h3><span data-i18n="us">ამერიკული ფორმატი</span> <small>51 <span data-i18n="mm">მმ</span></small></h3>
         <div class="ins">
-          <div><label for="g51">ყავა, გ (მოხალული)</label><span class="field"><input class="t num" id="g51" type="text" inputmode="decimal" value="10.7" autocomplete="off"><span class="unit">გ</span></span></div>
-          <div><label for="k51">შეფუთვა, ₾</label><span class="field"><input class="t num" id="k51" type="text" inputmode="decimal" value="0.17" autocomplete="off"><span class="unit">₾</span></span></div>
+          <div><label for="g51" data-i18n="gIn">ყავა, გ (მოხალული)</label><span class="field"><input class="t num" id="g51" type="text" inputmode="decimal" value="10.7" autocomplete="off"><span class="unit" data-i18n="g">გ</span></span></div>
+          <div><label for="k51" data-i18n="pkIn">შეფუთვა, ₾</label><span class="field"><input class="t num" id="k51" type="text" inputmode="decimal" value="0.17" autocomplete="off"><span class="unit">₾</span></span></div>
         </div>
         <dl class="ckv">
-          <div><dt>ყავა</dt><dd id="cc51">—</dd></div>
-          <div><dt>შეფუთვა</dt><dd id="cp51">—</dd></div>
-          <div><dt>საწარმო ხარჯი</dt><dd id="co51">—</dd></div>
+          <div><dt data-i18n="coffee">ყავა</dt><dd id="cc51">—</dd></div>
+          <div><dt data-i18n="pack">შეფუთვა</dt><dd id="cp51">—</dd></div>
+          <div><dt data-i18n="oh">საწარმო ხარჯი</dt><dd id="co51">—</dd></div>
         </dl>
         <div class="tots">
-          <div class="tot"><p>თ/ღ</p><strong id="t51">—</strong></div>
-          <div class="tot vat"><p>თ/ღ + დღგ</p><strong id="v51">—</strong></div>
+          <div class="tot"><p data-i18n="cost">თ/ღ</p><strong id="t51">—</strong></div>
+          <div class="tot vat"><p data-i18n="costVat">თ/ღ + დღგ</p><strong id="v51">—</strong></div>
         </div>
       </article>
     </div>
@@ -283,6 +292,48 @@ th+th,td+td{padding-left:10px}
   var mode = 'mix';
   var VAT = 0.18, lastCost = NaN;
 
+  var I18N = {
+    ka: {
+      title:'მარცვლის თვითღირებულება | MEAMA', langBtn:'ინგლისურზე გადართვა', dept:'შესყიდვები',
+      h1:'მოხალული მარცვლის თვითღირებულება', lead:'რა ჯდება 1 კგ მოხალული მარცვლის მისაღებად საჭირო ნედლეული.',
+      inputs:'მონაცემები', green:'ნედლი მარცვალი', wasteHint:'ვეისთი: წონის დანაკარგი მოხალვისას, თითო მარცვალზე ცალკე',
+      colName:'დასახელება', colWaste:'ვეისთი', colPrice:'ფასი, ₾ / კგ',
+      bean:'მარცვალი {n}', beanName:'მარცვალი {n}, დასახელება', beanWaste:'მარცვალი {n}, ვეისთი პროცენტებში', beanPrice:'მარცვალი {n}, ფასი ლარში კგ-ზე',
+      kg:'კგ', g:'გ', priceUnit:'₾/კგ',
+      mix:'შემადგენლობა', mixHint:'ერთში ჩაწერე %, მეორე თავად შეივსება', singleHint:'მხოლოდ ერთი მარცვალი, 100%', blend:'ბლენდი', ratio:'ბლენდის თანაფარდობა',
+      resLabel:'1 კგ მოხალულის ნედლეულის თ/ღ', rawNeed:'საჭირო ნედლი', rawAvg:'ნედლის საშუალო ფასი',
+      thBean:'მარცვალი', thShare:'წილი', thRaw:'ნედლი',
+      errBlend:'ბლენდის % უნდა იყოს 0-დან 100-მდე', errWaste:'ვეისთი უნდა იყოს 0-დან 100%-მდე: ', errPrice:'ჩაწერე ფასი: ',
+      capsTitle:'კაფსულის დაახლოებითი თ/ღ',
+      capsHint:'ყავის ღირებულება ზემოთ დათვლილი 1 კგ მოხალულიდან მოდის. ყველა ფასი დღგ-ის გარეშეა, დღგ 18%. საწყისი გრამაჟი და შეფუთვა FINA-ს რეცეპტიდან (08, 08.10.2026).',
+      capsWait:'კაფსულის თ/ღ გამოჩნდება, როცა ზემოთ მარცვლის ფასს ჩაწერ',
+      ohLabel:'საწარმო ხარჯი, ₾ / კაფსულა', oh:'საწარმო ხარჯი',
+      eu:'ევროპული ფორმატი', us:'ამერიკული ფორმატი', mm:'მმ',
+      gIn:'ყავა, გ (მოხალული)', pkIn:'შეფუთვა, ₾', coffee:'ყავა', pack:'შეფუთვა', cost:'თ/ღ', costVat:'თ/ღ + დღგ'
+    },
+    en: {
+      title:'Roasted Bean Cost | MEAMA', langBtn:'Switch to Georgian', dept:'Procurement',
+      h1:'Roasted bean cost', lead:'What the green coffee needed for 1 kg of roasted beans costs.',
+      inputs:'Inputs', green:'Green beans', wasteHint:'Waste: weight lost during roasting, set separately for each bean',
+      colName:'Name', colWaste:'Waste', colPrice:'Price, ₾ / kg',
+      bean:'Bean {n}', beanName:'Bean {n}, name', beanWaste:'Bean {n}, waste in percent', beanPrice:'Bean {n}, price in GEL per kg',
+      kg:'kg', g:'g', priceUnit:'₾/kg',
+      mix:'Composition', mixHint:'Enter % in either field, the other fills in automatically', singleHint:'Single bean, 100%', blend:'Blend', ratio:'Blend ratio',
+      resLabel:'Green coffee cost per 1 kg roasted', rawNeed:'Green coffee needed', rawAvg:'Average green price',
+      thBean:'Bean', thShare:'Share', thRaw:'Green',
+      errBlend:'Blend % must be between 0 and 100', errWaste:'Waste must be between 0 and 100%: ', errPrice:'Enter a price for: ',
+      capsTitle:'Approximate capsule cost',
+      capsHint:'Coffee cost is based on the 1 kg roasted cost calculated above. All prices exclude VAT; VAT is 18%. Default coffee weight and packaging are from the FINA recipe (08, 08.10.2026).',
+      capsWait:'Capsule cost will appear once you enter bean prices above',
+      ohLabel:'Production overhead, ₾ / capsule', oh:'Production overhead',
+      eu:'European format', us:'American format', mm:'mm',
+      gIn:'Coffee, g (roasted)', pkIn:'Packaging, ₾', coffee:'Coffee', pack:'Packaging', cost:'Cost', costVat:'Cost + VAT'
+    }
+  };
+  var LANG_KEY = 'meama-lang', lang = 'ka';
+  try { if (localStorage.getItem(LANG_KEY) === 'en') lang = 'en'; } catch(e){}
+  function t(k, n){ return I18N[lang][k].replace('{n}', n); }
+
   function num(el){
     var s = String(el.value).replace(/\s/g,'').replace(',', '.');
     if (s === '') return NaN;
@@ -291,9 +342,9 @@ th+th,td+td{padding-left:10px}
   }
   function r2(v){ return Math.round(v*100)/100; }
   function money(v){ return v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
-  function kg(v){ return v.toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3}) + ' კგ'; }
+  function kg(v){ return v.toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3}) + ' ' + t('kg'); }
   function pct(v){ return (Math.round(v*10)/10).toLocaleString('en-US',{maximumFractionDigits:1}) + '%'; }
-  function name(i){ var el = i===1 ? n1 : n2; return el.value.trim() || ('მარცვალი ' + i); }
+  function name(i){ var el = i===1 ? n1 : n2; return el.value.trim() || t('bean', i); }
   function esc(s){ return s.replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 
   function syncNames(){
@@ -334,7 +385,7 @@ th+th,td+td{padding-left:10px}
     mode = m;
     document.querySelectorAll('.seg button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.mode === m)); });
     $('split').hidden = (m !== 'mix');
-    $('mixhint').textContent = m === 'mix' ? 'ერთში ჩაწერე %, მეორე თავად შეივსება' : 'მხოლოდ ერთი მარცვალი, 100%';
+    $('mixhint').textContent = t(m === 'mix' ? 'mixHint' : 'singleHint');
     $('row1').classList.toggle('off', m === 'b2');
     $('row2').classList.toggle('off', m === 'b1');
     calc();
@@ -343,7 +394,7 @@ th+th,td+td{padding-left:10px}
   function calc(){
     var share1 = mode === 'b1' ? 1 : mode === 'b2' ? 0 : num(p1)/100;
     var msg = '', ok = true;
-    if (isNaN(share1) || share1 < 0 || share1 > 1) { msg = 'ბლენდის % უნდა იყოს 0-დან 100-მდე'; ok = false; }
+    if (isNaN(share1) || share1 < 0 || share1 > 1) { msg = t('errBlend'); ok = false; }
     if (ok) share1 = Math.min(1, Math.max(0, share1));
     var beans = [
       {i:1, s:share1, p:num(c1), l:num(w1), wl:w1},
@@ -356,7 +407,7 @@ th+th,td+td{padding-left:10px}
       if (isNaN(b.l) || b.l < 0 || b.l >= 100) { b.wl.setAttribute('aria-invalid','true'); if (ok && b.s > 0) badLoss.push(name(b.i)); }
       if (ok && b.s > 0 && (isNaN(b.p) || b.p < 0)) miss.push(name(b.i));
     });
-    if (badLoss.length) { msg = 'ვეისთი უნდა იყოს 0-დან 100%-მდე: ' + badLoss.join(', '); ok = false; }
+    if (badLoss.length) { msg = t('errWaste') + badLoss.join(', '); ok = false; }
 
     var used = ok ? beans.filter(function(b){ return b.s > 0; }) : [];
     var rawTotal = 0, total = 0, priced = ok && miss.length === 0;
@@ -372,13 +423,13 @@ th+th,td+td{padding-left:10px}
              '<td>' + pct(b.s*100) + '</td><td>' + kg(b.q) + '</td><td>' + (b.has ? '₾' + money(b.cost) : '—') + '</td></tr>';
     }).join('');
     $('fx').innerHTML = used.map(function(b){
-      return esc(name(b.i)) + ': ' + (Math.round(b.s*1000)/1000) + ' კგ ÷ (1 − ' + pct(b.l) + ') = ' + kg(b.q);
+      return esc(name(b.i)) + ': ' + (Math.round(b.s*1000)/1000) + ' ' + t('kg') + ' ÷ (1 − ' + pct(b.l) + ') = ' + kg(b.q);
     }).join('<br>');
 
-    if (ok && miss.length) msg = 'ჩაწერე ფასი: ' + miss.join(', ');
+    if (ok && miss.length) msg = t('errPrice') + miss.join(', ');
     $('raw').textContent = ok ? kg(rawTotal) : '—';
     $('total').innerHTML = '<small>₾</small>' + (priced ? money(total) : '—');
-    $('avg').textContent = priced ? ('₾' + money(total / rawTotal) + ' / კგ') : '—';
+    $('avg').textContent = priced ? ('₾' + money(total / rawTotal) + ' / ' + t('kg')) : '—';
     $('msg').textContent = msg;
     lastCost = priced ? total : NaN;
     capCalc();
@@ -402,7 +453,24 @@ th+th,td+td{padding-left:10px}
       $('t'+f).textContent = isNaN(t) ? '—' : m3(t);
       $('v'+f).textContent = isNaN(t) ? '—' : m3(t * (1 + VAT));
     });
-    $('capmsg').textContent = isNaN(lastCost) ? 'კაფსულის თ/ღ გამოჩნდება, როცა ზემოთ მარცვლის ფასს ჩაწერ' : '';
+    $('capmsg').textContent = isNaN(lastCost) ? t('capsWait') : '';
+  }
+
+  function applyLang(){
+    document.documentElement.lang = lang;
+    document.title = t('title');
+    document.querySelectorAll('[data-i18n]').forEach(function(el){ el.textContent = t(el.dataset.i18n); });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function(el){ el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
+    [1,2].forEach(function(i){
+      $('n'+i).placeholder = t('bean', i);
+      $('n'+i).setAttribute('aria-label', t('beanName', i));
+      $('w'+i).setAttribute('aria-label', t('beanWaste', i));
+      $('c'+i).setAttribute('aria-label', t('beanPrice', i));
+    });
+    var btn = $('lang');
+    btn.setAttribute('aria-label', t('langBtn'));
+    btn.querySelectorAll('span').forEach(function(s){ s.classList.toggle('on', s.lang === lang); });
+    syncNames(); setMode(mode);
   }
 
   [n1,n2].forEach(function(el){ el.addEventListener('input', function(){ syncNames(); calc(); }); });
@@ -419,8 +487,13 @@ th+th,td+td{padding-left:10px}
   });
   ['oh','g37','k37','g51','k51'].forEach(function(id){ $(id).addEventListener('input', capCalc); });
   document.querySelectorAll('.seg button').forEach(function(b){ b.addEventListener('click', function(){ setMode(b.dataset.mode); }); });
+  $('lang').addEventListener('click', function(){
+    lang = lang === 'ka' ? 'en' : 'ka';
+    try { localStorage.setItem(LANG_KEY, lang); } catch(e){}
+    applyLang();
+  });
 
-  syncNames(); setSlider(50); setMode('mix');
+  setSlider(50); applyLang();
 })();
 </script>
 </body>
